@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PropertyList>
   <sim>
-    <author> Juuso Tapaninen (jormapaappa1235), Brendan O'Gara (Sbyx), Chris Leung (ACJZA), Chris Andrews (DARK-L)</author>
+    <author>Juuso Tapaninen (jormapaappa1235), Brendan O'Gara (Sbyx), Chris Leung (ACJZA), Chris Andrews (DARK-L)</author>
     <status>Alpha</status>
     <model>
       <A350XWB>
@@ -41,17 +41,11 @@
       </config>
     </view>
     <view n="1">
-      <name>Copilot View</name>
-      <type>lookfrom</type>
-      <internal type="bool">true</internal>
-      <cockpit type="bool">true</cockpit>
-      <config>
-        <x-offset-m type="double">0.5326</x-offset-m>
-        <y-offset-m type="double">3.02</y-offset-m>
-        <z-offset-m type="double">-29.5</z-offset-m>
-        <pitch-offset-deg>-10.3</pitch-offset-deg>
-        <default-field-of-view-deg type="double">72</default-field-of-view-deg>
-      </config>
+      <internal archive="y">false</internal>
+      <!-- <config>
+        <z-offset-m type="double" archive="y">-80.0</z-offset-m>
+        <pitch-offset-deg archive="y">12.0</pitch-offset-deg>
+      </config> -->
     </view>
     <view n="2">
       <internal archive="y">false</internal>
@@ -168,7 +162,7 @@
         <default-field-of-view-deg type="double">50</default-field-of-view-deg>
       </config>
     </view>
-    <view n="201">
+    <view n="107">
       <name>Left Engine View</name>
       <type>lookfrom</type>
       <internal type="bool">true</internal>
@@ -185,7 +179,7 @@
         <default-field-of-view-deg type="double">72</default-field-of-view-deg>
       </config>
     </view>
-    <view n="202">
+    <view n="108">
       <name>Right Engine View</name>
       <type>lookfrom</type>
       <internal type="bool">true</internal>
@@ -201,79 +195,291 @@
         <pitch-offset-deg>-16.2</pitch-offset-deg>
         <default-field-of-view-deg type="double">72</default-field-of-view-deg>
       </config>
-    </view>    
+    </view>
+    <!-- <view n="109">
+      <name>Copilot View</name>
+      <type>lookfrom</type>
+      <internal type="bool">true</internal>
+      <cockpit type="bool">true</cockpit>
+      <config>
+        <limits>
+          <enabled archive="y" type="bool">false</enabled>
+        </limits>
+        <x-offset-m type="double">0.5326</x-offset-m>
+        <y-offset-m type="double">3.02</y-offset-m>
+        <z-offset-m type="double">-29.5</z-offset-m>
+        <pitch-offset-deg>-5</pitch-offset-deg>
+        <default-field-of-view-deg type="double">72</default-field-of-view-deg>
+      </config> -->
+    </view>
+
     <menubar>
       <default>
         <menu n="100">
           <label>Airbus A350XWB</label>
-
           <item>
             <label>Autostart</label>
             <binding>
               <command>nasal</command>
               <script>A350XWB.enginesystem.autostart();</script>
             </binding>
-	  </item>
-
-	  <item>
+          </item>
+          <item>
             <label>Select livery</label>
             <binding>
               <command>nasal</command>
               <script>aircraft.livery.dialog.toggle()</script>
             </binding>
-	  </item>
+          </item>
+          <!--
+					<item>
+						<name>autostart</name>
+						<label>Autostart Aircraft Engines</label>
+						<binding>
+							<command>property-toggle</command>
+							<property>sim/model/start-idling</property>
+						</binding>
+					</item>
+					<item>
+						<label>Select Aircraft Livery</label>
+						<binding>
+							<command>nasal</command>
+							<script>
+							 aircraft.livery.dialog.open()
+							</script>
+						</binding>
+					</item>
 
-	  <item>
-	    <label>Pushback</label>
-	    <binding>
-	      <command>dialog-show</command>
-	      <dialog-name>pushback</dialog-name>
-	    </binding>
-	  </item>
+-->
+          <item>
+            <label>Pushback</label>
+            <binding>
+              <command>dialog-show</command>
+              <dialog-name>pushback</dialog-name>
+            </binding>
+          </item>
+          <item>
+            <label>Autopilot Dialog</label>
+            <binding>
+              <command>nasal</command>
+              <script>var ap_dialog = gui.Dialog.new("sim/gui/dialogs/ap_dialog/dialog", "Aircraft/A350XWB/Systems/autopilot-dlg.xml");
+							 ap_dialog.open();</script>
+            </binding>
+          </item>
+          <item>
+            <label>Radio Stack</label>
+            <binding>
+              <command>nasal</command>
+              <script>dialogs.Radio.open()</script>
+            </binding>
+          </item>
+          <item>
+            <label>Virtual Co-pilot Settings</label>
+            <binding>
+              <command>nasal</command>
+              <script>var copilotdialog = gui.Dialog.new("sim/gui/dialogs/copilot/dialog", "Aircraft/A350XWB/Systems/copilot-dlg.xml");
+							 copilotdialog.open();</script>
+            </binding>
+          </item>
+          <item>
+            <label>Import/Export Flightplan</label>
+            <binding>
+              <command>nasal</command>
+              <script>var flightplan = gui.Dialog.new("sim/gui/dialogs/flightplan/dialog", "Aircraft/A350XWB/Systems/flightplan-dlg.xml");
+							 flightplan.open();</script>
+            </binding>
+          </item>
+          <item>
+            <name>pushback</name>
+            <label>Request for Pushback</label>
+            <binding>
+              <command>dialog-show</command>
+              <dialog-name>pushback</dialog-name>
+            </binding>
+          </item>
+          <item>
+            <name>lights</name>
+            <label>Control Aircraft Lights</label>
+            <binding>
+              <command>nasal</command>
+              <script>var lights = gui.Dialog.new("sim/gui/dialogs/lights/dialog", "Aircraft/A350XWB/Systems/lights-dlg.xml");
+							 lights.open();</script>
+            </binding>
+          </item>
+          <item>
+            <name>announcements</name>
+            <label>Make Announcements</label>
+            <binding>
+              <command>nasal</command>
+              <script>var announce = gui.Dialog.new("sim/gui/dialogs/announcements/dialog", "Aircraft/A350XWB/Systems/announcements-dlg.xml");
+							 announce.open();</script>
+            </binding>
+          </item>
+          <item>
+            <label>Simulate System Failures</label>
+            <binding>
+              <command>nasal</command>
+              <script>var failures = gui.Dialog.new("sim/gui/dialogs/failures/dialog", "Aircraft/A350XWB/Systems/failures-dlg.xml");
+							 failures.open();</script>
+            </binding>
+          </item>
+          <item>
+            <label>Ground Services Controls</label>
+            <binding>
+              <command>nasal</command>
+              <script>var ground_services = gui.Dialog.new("sim/gui/dialogs/ground_services/dialog", "Aircraft/A350XWB/Systems/ground_services-dlg.xml");
+							 ground_services.open();</script>
+            </binding>
+          </item>
+          <item>
+            <label>Fuel Truck Controls</label>
+            <binding>
+              <command>nasal</command>
+              <script>var fuel_truck = gui.Dialog.new("sim/gui/dialogs/fuel_truck/dialog", "Aircraft/A350XWB/Systems/fuel_truck.xml");
+							 fuel_truck.open();</script>
+            </binding>
+          </item>
+          <item>
+            <name>dualcontrol</name>
+            <label>Dual Control System Settings</label>
+            <binding>
+              <command>nasal</command>
+              <script>var dualcontrol = gui.Dialog.new("sim/gui/dialogs/dualcontrol/dialog", "Aircraft/A350XWB/Systems/dualcontrol-dlg.xml");
+							 dualcontrol.open();</script>
+            </binding>
+          </item>
         </menu>
       </default>
     </menubar>
-
-
     <!-- Systems -->
     <systems>
       <autopilot>
-		<path>Aircraft/A350XWB/Systems/it-autoflight.xml</path>
+        <path>Aircraft/A350XWB/Systems/it-autoflight.xml</path>
       </autopilot>
+      <spoilers>
+	<name>Spoilers</name>
+	<path>Aircraft/A350XWB/Systems/A350XWB-spoilers.xml</path>
+      </spoilers>
     </systems>
-	
-        <multiplay>
-            <generic>
-                <int n="0" alias="/systems/electrical/outputs/strobe"/>
-                <int n="1" alias="/systems/electrical/outputs/beacon"/>
-                <int n="2" alias="/systems/electrical/outputs/taxi-lights"/>
-                <int n="3" alias="/systems/electrical/outputs/logo-lights"/>
-                <int n="4" alias="/systems/electrical/outputs/landing-light[0]"/>
-                <int n="5" alias="/systems/electrical/outputs/landing-light[1]"/>
-                <int n="6" alias="/systems/electrical/outputs/landing-light[2]"/>
-                <int n="7" alias="/systems/electrical/outputs/nav-lights"/>
-                <int n="8" alias="/systems/electrical/outputs/cabin-lights"/>
+    <!-- General MP Enabled Properties -->
+    <multiplay>
+      <generic>
+        <!-- Aircraft Lighting -->
+        <int n="0" alias="controls/lighting/logo" />
+        <int n="1" alias="controls/lighting/landing-lights[0]" />
+        <int n="2" alias="controls/lighting/wing-lights" />
+        <int n="3" alias="sim/model/lights/beacon/state" />
+        <int n="4" alias="controls/lighting/nav-lights" />
+        <int n="5" alias="sim/model/lights/strobe/state" />
+        <int n="6" alias="controls/lighting/taxi-lights" />
+        <!-- Gears, Engines, Surfaces and Wingflex -->
+        <float n="0" alias="gear/gear[0]/position-norm" />
+        <float n="1" alias="gear/gear[1]/position-norm" />
+        <float n="2" alias="gear/gear[2]/position-norm" />
+        <float n="3" alias="engines/engine[0]/n1" />
+        <float n="4" alias="engines/engine[1]/n1" />
+        <float n="5" alias="fdm/jsbsim/aero/coefficient/CLalpha" />
+        <float n="6" alias="/fdm/jsbsim/fcs/aileron-fbw-output" />
+        <float n="7" alias="surface-positions/flap-pos-norm" />
+        <float n="8" alias="controls/flight/elevator-trim" />
+        <float n="9" alias="/fdm/jsbsim/fcs/elevator-fbw-output" />
+        <float n="10" alias="/fdm/jsbsim/fcs/rudder-fbw-output" />
+        <float n="11" alias="surface-positions/speedbrake-pos-norm" />
+        <float n="12" alias="controls/switches/contrails" />
+        <float n="13" alias="gear/gear[0]/compression-norm" />
+        <float n="14" alias="gear/gear[1]/compression-norm" />
+        <float n="15" alias="gear/gear[2]/compression-norm" />
+        <float n="16" alias="gear/gear[0]/rollspeed-ms" />
+        <float n="17" alias="gear/gear[1]/rollspeed-ms" />
+        <float n="18" alias="gear/gear[2]/rollspeed-ms" />
+        <float n="19" alias="engines/engine[0]/reverser-pos-norm" />
+        <float n="20" alias="engines/engine[1]/reverser-pos-norm" />
+        <!-- Fuel Controls and Extra
+        <int n="0" alias="/controls/surge/flash" />
+        <int n="1" alias="controls/jettison/arm" />
+        <int n="2" alias="/controls/jettison/rnozzle" />
+        <int n="3" alias="/controls/jettison/lnozzle" />
+        <int n="4" alias="/systems/electrical/outputs/strobe" />
+        <int n="5" alias="/systems/electrical/outputs/beacon" />
+        <int n="6" alias="/systems/electrical/outputs/taxi-lights" /> -->
+        <int n="7" alias="/systems/electrical/outputs/logo-lights" />
+        <int n="8" alias="/systems/electrical/outputs/landing-light[0]" />
+        <int n="9" alias="/systems/electrical/outputs/landing-light[1]" />
+        <int n="10" alias="/systems/electrical/outputs/landing-light[2]" />
+        <int n="11" alias="/systems/electrical/outputs/nav-lights" />
+        <int n="12" alias="/systems/electrical/outputs/cabin-lights" />
+        <string alias="/sim/multiplay/callsign" />
+      </generic>
+    </multiplay>
+    <flight-recorder include="Systems/flight-recorder.xml" />
+    <instrument-options>
+      <canvas-popup-enable type="bool">true</canvas-popup-enable>
+    </instrument-options>
 
-                <float n="0" alias="/gear/gear[0]/compression-ft"/>
-                <float n="1" alias="/gear/gear[1]/compression-ft"/>
-                <float n="2" alias="/gear/gear[2]/compression-ft"/>
-                <float n="3" alias="/surface-positions/speedbrake-pos-norm"/>
-                <float n="4" alias="/surface-positions/reverser-norm"/>
-				<float n="5" alias="/gear/gear[0]/rollspeed-ms"/>
-				<float n="6" alias="/gear/gear[1]/rollspeed-ms"/>
-				<float n="7" alias="/gear/gear[2]/rollspeed-ms"/>
-                <float n="8" alias="/gear/gear[0]/compression-norm"/>
-                <float n="9" alias="/gear/gear[1]/compression-norm"/>
-                <float n="10" alias="/gear/gear[2]/compression-norm"/>
-                <string  alias="/sim/multiplay/callsign"/>
-            </generic>
-        </multiplay>
+	<connection>
+		<fgfscopilot>
+			<connected type="bool">false</connected>
+		</fgfscopilot>
+		<autopirep>
+			<connected type="bool">false</connected>
+		</autopirep>
+	</connection>
+        
+		<!-- Wing Flexer -->
+		<wingflexer include="Systems/wingflexer-params.xml"/>
+		<property-rule n="100">
+			<name>wing flexer property rule</name>
+			<path>Aircraft/Generic/wingflexer.xml</path>
+		</property-rule>
+		<sound>
+			<path>Aircraft/A350XWB/Sounds/A350XWB-sounds.xml</path>
+		</sound>
 
-        <flight-recorder include="Systems/flight-recorder.xml"/>
-	
-	<instrument-options>
-		<canvas-popup-enable type="bool">true</canvas-popup-enable>
-	</instrument-options>
+		<instrumentation>
+			<path>Aircraft/A350XWB/Systems/instrumentation.xml</path>
+  		</instrumentation>
+
+		<alarms>
+			<master-caution type="bool">false</master-caution>
+		</alarms>
+
+		<chase-distance-m>-100</chase-distance-m>
+		
+		<help>
+			<title>Airbus A350XWB</title>
+			<key>
+				<name>Delete</name>
+				<desc>toggle thrust reversers</desc>
+			</key>
+			<key>
+				<name>Ctrl-f</name>
+				<desc>Toggle FBW Override</desc>
+			</key>
+			<key>
+				<name>Ctrl-y</name>
+				<desc>Toggle Yaw Damper</desc>
+			</key>
+			<key>
+				<name>Ctrl-b</name>
+				<desc>cycle speedbrake lever setting</desc>
+			</key>
+			<key>
+				<name>Ctrl-k</name>
+				<desc>arm/disarm ground spoilers</desc>
+			</key>
+			<key>
+				<name>w</name>
+				<desc>walk forward toward view direction</desc>
+			</key>
+			<key>
+				<name>W</name>
+				<desc>run forward toward view direction</desc>
+			</key>
+			<key>
+				<name>s</name>
+				<desc>walk backward from view direction</desc>
+			</key>
+		</help>
 
 
   </sim>
@@ -356,50 +562,49 @@
     <keyboard include="A350XWB-keyboard.xml">
     </keyboard>
   </input>
-  
   <!-- Autopilot initialization -->
   <autopilot>
-
     <settings>
       <kts-mach-select type="string">kts</kts-mach-select>
-      <max-pitch type="float"> 6.0</max-pitch>
+      <max-pitch type="float">6.0</max-pitch>
       <min-pitch type="float">-4.0</min-pitch>
       <bank-angle-limit-deg type="int">35</bank-angle-limit-deg>
     </settings>
-
     <internal>
       <target-pitch-deg type="float">0.00</target-pitch-deg>
-      <max-pitch type="float"> 6.0</max-pitch>
+      <max-pitch type="float">6.0</max-pitch>
       <min-pitch type="float">-4.0</min-pitch>
     </internal>
-
   </autopilot>
-  
   <!-- Voodoomaster plane specific initializations -->
   <voodoomaster>
     <steering-wheel type="int">0</steering-wheel>
-    <steering-type type="string">TriCycle</steering-type>	<!-- Alternativ: Taildragger-lock or TriCycle -->
+    <steering-type type="string">TriCycle</steering-type>
+    <!-- Alternativ: Taildragger-lock or TriCycle -->
     <pushback>
       <activated type="bool">false</activated>
     </pushback>
   </voodoomaster>
-
   <nasal>
     <A350XWB>
       <file>Aircraft/A350XWB/Nasal/A350XWB-EICAS.nas</file>
       <file>Aircraft/A350XWB/Nasal/A350XWB-engines.nas</file>
       <file>Aircraft/A350XWB/Nasal/A350XWB-main.nas</file>
       <file>Aircraft/A350XWB/Nasal/system.nas</file>
+      <file>Aircraft/A350XWB/Nasal/walk.nas</file>
+      <file>Aircraft/A350XWB/Nasal/tyresmoke.nas</file>
+      <file>Aircraft/A350XWB/Nasal/reversethrust.nas</file>
+      <file>Aircraft/A350XWB/Nasal/v-speeds.nas</file>
       <file>Aircraft/A350XWB/Nasal/wipers.nas</file>
+      <file>Aircraft/A350XWB/Nasal/ground_services.nas</file>
+      <file>Aircraft/A350XWB/Nasal/electrical.nas</file>
       <file>Aircraft/A350XWB/Nasal/liveries.nas</file>
-      <file>Aircraft/A350XWB/Nasal/engine-param.nas</file>
-	  <file>Aircraft/A350XWB/Models/Instruments/ND/ND.nas</file>
+      <file>Aircraft/A350XWB/Models/Instruments/ND/ND.nas</file>
     </A350XWB>
-	<itaf>
+    <itaf>
       <file>Aircraft/A350XWB/Nasal/it-autoflight.nas</file>
-	</itaf>
+    </itaf>
   </nasal>
-
   <engines>
     <engine n="0">
       <running>true</running>
@@ -408,11 +613,9 @@
       <running>true</running>
     </engine>
   </engines>
-
   <controls>
     <gear>
       <brake-parking>1</brake-parking>
     </gear>
   </controls>
-
 </PropertyList>
